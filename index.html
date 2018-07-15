@@ -13,12 +13,22 @@
     }
 
     .box {
-        margin: 100px auto;
+        margin: 100px 50px;
+    }
+
+    .content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     input[type="range"] {
         display: block;
         margin: 10px auto;
+        cursor: pointer;
+    }
+
+    input[type="color"] {
         cursor: pointer;
     }
 
@@ -31,25 +41,38 @@
 </head>
 
 <body>
-    <div class="box"></div>
+    <div class="content">
+        <input type="color" id="leftColor" value="#FFC0CB" oninput="color('left', this.value)">
+        <div class="box"></div>
+        <input type="color" id="rightColor" value="#00BFFF" oninput="color('right', this.value)">
+    </div>
     <input type="range" max="180" name="deg" oninput="update(this.value)" id="degInput">
     <p class="value">45°</p>
 </body>
 <script type="text/javascript" src="ocb.js"></script>
 <script type="text/javascript">
+let color = (dirction, color) => {
+    dirction === 'left' ? localStorage.obc_leftColor = color : localStorage.obc_rightColor = color;
+    update(parseInt(localStorage.obc_deg));
+}
+
 let update = (value) => {
     document.querySelector('.value').innerText = `${value}°`;
+    localStorage.obc_deg = value;
     new Segment({
         el: '.box',
         width: 200,
         height: 50,
-        leftColor: 'pink',
-        rightColor: 'deepskyblue',
-        deg: value
+        leftColor: localStorage.obc_leftColor,
+        rightColor: localStorage.obc_rightColor,
+        deg: parseInt(localStorage.obc_deg)
     });
 }
 window.onload = () => {
-    update(45);
+    localStorage.obc_leftColor = 'pink';
+    localStorage.obc_rightColor = 'deepskyblue';
+    localStorage.obc_deg = 45;
+    update(parseInt(localStorage.obc_deg));
 }
 </script>
 
