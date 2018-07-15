@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>斜分色块</title>
+    <style type="text/css">
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    .box {
+        margin: 100px auto;
+    }
+
+    input[type="range"] {
+        display: block;
+        margin: 10px auto;
+        cursor: pointer;
+    }
+
+    .value {
+        text-align: center;
+        font-size: 36px;
+        font-family: '微软雅黑';
+    }
+    </style>
+</head>
+
+<body>
+    <div class="box"></div>
+    <input type="range" max="180" name="deg" oninput="update(this.value)" id="degInput">
+    <p class="value">45°</p>
+</body>
+<script type="text/javascript" src="ocb.js"></script>
+<script type="text/javascript">
+let update = (value) => {
+    document.querySelector('.value').innerText = `${value}°`;
+    new Segment({
+        el: '.box',
+        width: 200,
+        height: 50,
+        leftColor: 'pink',
+        rightColor: 'deepskyblue',
+        deg: value
+    });
+}
+window.onload = () => {
+    update(45);
+}
+</script>
+
+</html>
