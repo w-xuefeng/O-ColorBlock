@@ -24,6 +24,8 @@ Oblique Color-Block | 斜分色块
 
 ![jsview](jsView.png)
 
+[预览效果](https://w-xuefeng.github.io/O-ColorBlock/)
+
 ### 博客链接
 
 ↖(^ω^)↗ Welcome to https://blog.wangxuefeng.com.cn/archives/Oblique-color-block.html
