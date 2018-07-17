@@ -23,20 +23,28 @@
     }
 
     input[type="range"] {
-        display: block;
+        display: inline-block;
         margin: 10px auto;
         cursor: pointer;
+        width: 60%;
     }
 
     input[type="color"] {
         cursor: pointer;
     }
 
-    .value {
-        text-align: center;
-        font-size: 36px;
+    .value, .lable{
+    	display: inline-block;       
+        font-size: 28px;
         font-family: '微软雅黑';
+        margin-left: 20px;
     }
+    .size {
+        margin: 0 auto;
+        width: 50%;
+       	border: 1px dashed gray;       
+    }
+
     </style>
 </head>
 
@@ -46,31 +54,59 @@
         <div class="box"></div>
         <input type="color" id="rightColor" value="#00BFFF" oninput="color('right', this.value)">
     </div>
-    <input type="range" max="180" name="deg" oninput="update(this.value)" id="degInput">
-    <p class="value">45°</p>
+    <ul class="size">
+    	<li>
+    		<div class="lable">角度：</div>
+	    	<input type="range" name="deg" oninput="update(this.value)" id="degInput">
+	    	<div class="value">45°</div>    		
+    	</li>
+		<li>
+			<div class="lable">宽度：</div>
+		    <input type="range" name="width" min="50" max="600" oninput="_size('width', this.value)" id="WidthInput">
+		    <div class="value">200px</div>	
+		</li>
+		<li>
+			<div class="lable">高度：</div>
+			<input type="range" name="height" min="30" max="200" oninput="_size('height', this.value)" id="HeightInput">
+			<div class="value">45px</div>
+		</li>
+    </ul>
 </body>
 <script type="text/javascript" src="ocb.js"></script>
 <script type="text/javascript">
+let _size = (type, size) => {
+    type === 'width' ? localStorage.obc_width = size : localStorage.obc_height = size;
+    update(parseInt(localStorage.obc_deg));
+}
+
 let color = (dirction, color) => {
     dirction === 'left' ? localStorage.obc_leftColor = color : localStorage.obc_rightColor = color;
     update(parseInt(localStorage.obc_deg));
 }
 
 let update = (value) => {
-    document.querySelector('.value').innerText = `${value}°`;
+	let obj = document.querySelector('#degInput');
+    let valueObj = document.querySelectorAll('.value');
+    valueObj[0].innerText = `${value}°`;
+    valueObj[1].innerText = `${localStorage.obc_width}px`;
+    valueObj[2].innerText = `${localStorage.obc_height}px`;
     localStorage.obc_deg = value;
-    new Segment({
+    let app = new Segment({
         el: '.box',
-        width: 200,
-        height: 50,
+        width: localStorage.obc_width,
+        height: localStorage.obc_height,
         leftColor: localStorage.obc_leftColor,
         rightColor: localStorage.obc_rightColor,
         deg: parseInt(localStorage.obc_deg)
     });
+    obj.min = app.minDeg;
+    obj.max = app.maxDeg;
 }
 window.onload = () => {
     localStorage.obc_leftColor = 'pink';
     localStorage.obc_rightColor = 'deepskyblue';
+    localStorage.obc_width = 200;
+    localStorage.obc_height = 50;
     localStorage.obc_deg = 45;
     update(parseInt(localStorage.obc_deg));
 }

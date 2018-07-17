@@ -9,6 +9,8 @@ Segment.prototype = {
         this.el.style.width = `${opt.width}px`;
         this.el.style.height = `${opt.height}px`;
         this.el.style.background = opt.leftColor;
+        this.minDeg = Math.round(Math.atan2(opt.height, opt.width) * 180 / Math.PI);
+        this.maxDeg = 180 - this.minDeg;
         this.drawRight(opt);
     },
     drawRight(opt) {
